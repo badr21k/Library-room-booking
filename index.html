@@ -13,17 +13,40 @@
             padding-bottom: 48px;
         }
 
+        .welcome-div{
+            background-color: #E25959; 
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .welcome-div h1{
+            font-size: 52px;
+            /* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
+            color: white;
+            margin: 0%;
+            padding: 20px;
+        }
+
+        .welcome-div h2{
+            font-size: 34px;
+            /* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
+            color: white;
+            padding: 0 20px 0 20px;
+        }
+
         .container {
-            max-width: 582px;
+            max-width: 1000px;
             width: 100%;
             padding: 40px;
-            margin: 0 auto;
             border-radius: 5px;
         }
 
         form {
-            max-width: 600px;
-            margin: 0 auto;
+            /* max-width: 600px; */
+            margin: 0;
+            /* padding: 0 25% 0 0; */
         }
 
         label, input, textarea, select, div, form-label {
@@ -54,7 +77,7 @@
         }
 
         button[type="submit"] {
-            background-color: #727b97;
+            background-color: #E25959;
             border: none;
             color: white;
             font-family: 'Lato', sans-serif;
@@ -67,7 +90,7 @@
         }
 
         button[type="submit"]:hover {
-            background-color: #2A2630;
+            background-color: #E25959;
         }
 
         button[type="submit"]:focus {
@@ -78,8 +101,8 @@
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            align-items: center;
-            justify-content: center;
+            align-items: left;
+            justify-content: left;
         }
 
         .radio-input {
@@ -93,14 +116,14 @@
             padding: 10px 20px;
             border-radius: 5px;
             font-size: 14px;
-            color: #444;
+            color: #E25959;
             cursor: pointer;
             transition: background-color 0.3s, transform 0.3s;
             box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .radio-input:checked + label {
-            background-color: #727b97;
+            background-color: #E25959;
             color: #fff;
             transform: scale(1.05);
         }
@@ -202,20 +225,20 @@
             color: #2A2630;
         }
 
-        h1 {
+        /* h1 {
             color: #000000;
             font-size: 2em;
             font-weight: bold;
             margin-bottom: 0.5em;
-        }
+        } */
 
-        h2 {
+        /* h2 {
             color: #2A2630;
             font-size: 1.7em;
             font-weight: bold;
             margin-top: 0;
             opacity: 0.8;
-        }
+        } */
 
         textarea {
             height: 100px;
@@ -344,9 +367,9 @@
 
 
         .consent-container {
-            margin: 20px 0;
+            margin: 10px 0;
             display: flex;
-            align-items: center;
+            align-items: left;
         }
         .consent-container input[type="checkbox"] {
             opacity: 0;
@@ -398,10 +421,12 @@
     </style>
 </head>
 <body>
+    <div class="welcome-div">
+        <h1>Welcome To The Library Room Booking System</h1>
+        <h2>Secure Your Spot - View Available Days</h2>
+    </div>
 <div class="container">
     <!-- <h1>WELCOME TO THE <span style="color: #727b97;">AUSU</span> FOOD PANTRY</h1> -->
-     <!-- change test two -->
-    <h2>Secure Your Spot - View Available Days</h2>
     <div id="days" class="time-slots"></div>
     <div id="timeSlots" class="time-slots"></div>
     <div id="loadingIndicator" class="loading-indicator">
@@ -424,7 +449,7 @@
         <input type="email" id="email" placeholder="AlgomaU Email" pattern=".+@algomau\.ca$" required>
         <input type="text" id="studentId" placeholder="Student ID" pattern="\d{9}" required>
         <div id="appointmentAccessibility" style="text-align:center; margin-top:20px;">
-            <h3 style="margin-bottom:10px; color:#000000;">Pantry Pickup Authorization</h3>
+            <h3 style="margin-bottom:30px; color:#000000; text-align: left;">Pantry Pickup Authorization</h3>
             <div class="radio-container">
                 <input type="radio" name="accessibility" value="No" id="cannotBeTaken" class="radio-input" checked>
                 <label for="cannotBeTaken">Self Pickup</label>
@@ -432,21 +457,21 @@
                 <label for="canBeTaken">Pickup by Others</label>
             </div>
         </div>
-       <div class="consent-container" style="padding: 20px;">
-    <input type="checkbox" id="consentCheckbox" name="consent" required>
-    <label for="consentCheckbox">
-        I agree and consent to the 
-        <a href="https://docs.google.com/document/d/1KMs9AWojWsot269Hy8nzu_XE_jKKOfZOCrL1Ba0evJ0/edit" style="color: #727b97; text-decoration: none;">
-            client policies
-        </a>.
-        <span style="font-size: 0.8em; color: gray;"> (required)</span>
-    </label>
-</div>
+       <div class="consent-container">
+            <input type="checkbox" id="consentCheckbox" name="consent" required>
+            <label for="consentCheckebox">
+                I agree and consent to the 
+                <a href="https://docs.google.com/document/d/1KMs9AWojWsot269Hy8nzu_XE_jKKOfZOCrL1Ba0evJ0/edit" style="color: #727b97; text-decoration: none;">
+                    client policies
+                </a>.
+                <span style="font-size: 0.8em; color: gray;"> (required)</span>
+            </label>
+        </div>
 
 
-        <button type="submit" id="bookAppointmentButton" style="display: block; margin: 0 auto;">Book Appointment</button>
+        <button type="submit" id="bookAppointmentButton" style="display: block; margin: 0;">Book Appointment</button>
 
-        <div id="intakeFormLink" style="margin-top: 20px; text-align: center; color: #000000;">
+        <div id="intakeFormLink" style="margin-top: 20px; text-align: left; color: #000000;">
             <p>Please fill in the intake form at <a href="https://sites.google.com/ausu82.ca/food-pantry-appointments/intake-form?authuser=0" target="_blank">this link</a>.</p>
         </div>
     </form>
