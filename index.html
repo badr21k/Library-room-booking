@@ -448,20 +448,12 @@
         <input type="text" id="fullName" placeholder="Full Name" required minlength="3">
         <input type="email" id="email" placeholder="AlgomaU Email" pattern=".+@algomau\.ca$" required>
         <input type="text" id="studentId" placeholder="Student ID" pattern="\d{9}" required>
-        <div id="appointmentAccessibility" style="text-align:center; margin-top:20px;">
-            <h3 style="margin-bottom:30px; color:#000000; text-align: left;">Pantry Pickup Authorization</h3>
-            <div class="radio-container">
-                <input type="radio" name="accessibility" value="No" id="cannotBeTaken" class="radio-input" checked>
-                <label for="cannotBeTaken">Self Pickup</label>
-                <input type="radio" name="accessibility" value="Yes" id="canBeTaken" class="radio-input">
-                <label for="canBeTaken">Pickup by Others</label>
-            </div>
-        </div>
+
        <div class="consent-container">
             <input type="checkbox" id="consentCheckbox" name="consent" required>
             <label for="consentCheckebox">
                 I agree and consent to the 
-                <a href="https://docs.google.com/document/d/1KMs9AWojWsot269Hy8nzu_XE_jKKOfZOCrL1Ba0evJ0/edit" style="color: #727b97; text-decoration: none;">
+                <a href="#" style="color: #727b97; text-decoration: none;">
                     client policies
                 </a>.
                 <span style="font-size: 0.8em; color: gray;"> (required)</span>
@@ -471,9 +463,6 @@
 
         <button type="submit" id="bookAppointmentButton" style="display: block; margin: 0;">Book Appointment</button>
 
-        <div id="intakeFormLink" style="margin-top: 20px; text-align: left; color: #000000;">
-            <p>Please fill in the intake form at <a href="https://sites.google.com/ausu82.ca/food-pantry-appointments/intake-form?authuser=0" target="_blank">this link</a>.</p>
-        </div>
     </form>
     <div id="noAvailableSlotsMessage" style="display: none; text-align: center; color: #000000; margin-top: 20px;">
         <p>All appointments are booked for that particular day. Please select another day or check back later.</p>
