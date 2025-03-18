@@ -1,4 +1,4 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbwm8sMXF0Jk693Lzkiwqj_rKvgb3cunayMeg1nqkFfDANch5xM7WQauqncpOBJXtssm/exec"; 
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyQ1PwFK8Ts5RtdU90800mDpSZkte6Os0BrCTgte385g-AMzbhboxEP1ryt_34B6wY/exec"; 
 
 function fetchAndCreateDayButtons() {
     fetch(`${GAS_URL}?action=getActiveDays`)
