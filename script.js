@@ -1,4 +1,4 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbwxLFz4ulN9z23Ti4vBEEFTYM7zjFcklb_ipRggX4vOMZYnmfC7oIUrkYw7-3BAtmeb/exec"; // Replace with your Apps Script URL
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxfhGHyBGwdBWl33ZkOmnmHGq8cuNmBw0gQQMErbpCFzIEXswvfccfTktDTw3Nf8hoS/exec"; // Replace with your actual deployed Apps Script URL
 
 function getDayIndex(dayName) {
     const dayOfWeekMap = { 'Sunday': 0, 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6 };
@@ -17,15 +17,15 @@ function sortDays(days) {
 function fetchAndCreateDayButtons() {
     fetch(`${GAS_URL}?action=getActiveDays`, {
         method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
+        headers: { "Content-Type": "application/json" }
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) throw new Error("Network response was not OK");
+        return response.json();
+    })
     .then(createDayButtons)
     .catch(error => console.error("Error fetching days:", error));
 }
-
 
 function createDayButtons(days) {
     const daysContainer = document.getElementById('days');
@@ -63,9 +63,7 @@ function selectDay(day) {
     showOverlay();
     fetch(`${GAS_URL}?action=getAvailableSlots&day=${encodeURIComponent(day)}`, {
         method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
+        headers: { "Content-Type": "application/json" }
     })
     .then(response => response.json())
     .then(slots => {
@@ -74,17 +72,15 @@ function selectDay(day) {
         slotsContainer.innerHTML = '';
 
         if (slots.length === 0) {
-            document.getElementById('bookingDetails').style.display = 'none';
             document.getElementById('noAvailableSlotsMessage').style.display = 'block';
         } else {
             slots.forEach(slot => {
                 const slotButton = document.createElement('button');
                 slotButton.classList.add('slot-button');
                 slotButton.textContent = formatSlot(slot);
-                slotButton.onclick = function() { selectSlot(slot, day); };
+                slotButton.onclick = function() { selectSlot(slot); };
                 slotsContainer.appendChild(slotButton);
             });
-            document.getElementById('bookingDetails').style.display = 'block';
         }
     })
     .catch(error => {
@@ -93,13 +89,9 @@ function selectDay(day) {
     });
 }
 
-
 function formatSlot(slotString) {
-    var date = new Date(slotString);
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    return hours + ':' + minutes;
+    const date = new Date(slotString);
+    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 }
 
 function selectSlot(slot) {
@@ -117,9 +109,7 @@ document.getElementById('bookingDetails').addEventListener('submit', function(ev
     fetch(`${GAS_URL}?action=bookAppointment`, {
         method: "POST",
         body: JSON.stringify(jsonData),
-        headers: {
-            "Content-Type": "application/json"
-        }
+        headers: { "Content-Type": "application/json" }
     })
     .then(response => response.json())
     .then(data => {
@@ -132,29 +122,3 @@ document.getElementById('bookingDetails').addEventListener('submit', function(ev
         showModalAlert("Error: " + error.message);
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
