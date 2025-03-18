@@ -1,7 +1,7 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbyQ1PwFK8Ts5RtdU90800mDpSZkte6Os0BrCTgte385g-AMzbhboxEP1ryt_34B6wY/exec"; 
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwExrxcx8ZocUeDcmCYdTIE937a9xh58axms2B7SpwaJL4VxtJYkEcMEOzXjcVr0JXM/exec"; 
 
 function fetchAndCreateDayButtons() {
-    fetch(`${GAS_URL}?action=getActiveDays`)
+    fetch(${GAS_URL}?action=getActiveDays)
         .then(response => response.json())
         .then(createDayButtons)
         .catch(error => console.error("Error fetching days:", error));
@@ -23,7 +23,7 @@ window.addEventListener('load', fetchAndCreateDayButtons);
 
 function selectDay(day) {
     showOverlay();
-    fetch(`${GAS_URL}?action=getAvailableSlots&day=${encodeURIComponent(day)}`)
+    fetch(${GAS_URL}?action=getAvailableSlots&day=${encodeURIComponent(day)})
         .then(response => response.json())
         .then(slots => {
             hideOverlay();
