@@ -1,4 +1,4 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbwv3tzXHIuUiy0KFGj8S23JL_MIBbB5XDya0dZo5_I87F2bRnAHu5h2jOqkLH2Kszbc/exec"; // Replace with your Apps Script URL
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwxLFz4ulN9z23Ti4vBEEFTYM7zjFcklb_ipRggX4vOMZYnmfC7oIUrkYw7-3BAtmeb/exec"; // Replace with your Apps Script URL
 
 function getDayIndex(dayName) {
     const dayOfWeekMap = { 'Sunday': 0, 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6 };
@@ -15,11 +15,17 @@ function sortDays(days) {
 }
 
 function fetchAndCreateDayButtons() {
-    fetch(`${GAS_URL}?action=getActiveDays`)
-        .then(response => response.json())
-        .then(createDayButtons)
-        .catch(error => console.error("Error fetching days:", error));
+    fetch(`${GAS_URL}?action=getActiveDays`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(createDayButtons)
+    .catch(error => console.error("Error fetching days:", error));
 }
+
 
 function createDayButtons(days) {
     const daysContainer = document.getElementById('days');
@@ -55,31 +61,38 @@ function closeModal() {
 
 function selectDay(day) {
     showOverlay();
-    fetch(`${GAS_URL}?action=getAvailableSlots&day=${encodeURIComponent(day)}`)
-        .then(response => response.json())
-        .then(slots => {
-            hideOverlay();
-            const slotsContainer = document.getElementById('timeSlots');
-            slotsContainer.innerHTML = '';
-            if (slots.length === 0) {
-                document.getElementById('bookingDetails').style.display = 'none';
-                document.getElementById('noAvailableSlotsMessage').style.display = 'block';
-            } else {
-                slots.forEach(slot => {
-                    const slotButton = document.createElement('button');
-                    slotButton.classList.add('slot-button');
-                    slotButton.textContent = formatSlot(slot);
-                    slotButton.onclick = function() { selectSlot(slot, day); };
-                    slotsContainer.appendChild(slotButton);
-                });
-                document.getElementById('bookingDetails').style.display = 'block';
-            }
-        })
-        .catch(error => {
-            hideOverlay();
-            console.error('Error fetching slots:', error);
-        });
+    fetch(`${GAS_URL}?action=getAvailableSlots&day=${encodeURIComponent(day)}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(slots => {
+        hideOverlay();
+        const slotsContainer = document.getElementById('timeSlots');
+        slotsContainer.innerHTML = '';
+
+        if (slots.length === 0) {
+            document.getElementById('bookingDetails').style.display = 'none';
+            document.getElementById('noAvailableSlotsMessage').style.display = 'block';
+        } else {
+            slots.forEach(slot => {
+                const slotButton = document.createElement('button');
+                slotButton.classList.add('slot-button');
+                slotButton.textContent = formatSlot(slot);
+                slotButton.onclick = function() { selectSlot(slot, day); };
+                slotsContainer.appendChild(slotButton);
+            });
+            document.getElementById('bookingDetails').style.display = 'block';
+        }
+    })
+    .catch(error => {
+        hideOverlay();
+        console.error('Error fetching slots:', error);
+    });
 }
+
 
 function formatSlot(slotString) {
     var date = new Date(slotString);
@@ -97,12 +110,16 @@ function selectSlot(slot) {
 document.getElementById('bookingDetails').addEventListener('submit', function(event) {
     event.preventDefault();
     showOverlay();
+
     const formData = new FormData(this);
+    const jsonData = Object.fromEntries(formData);
 
     fetch(`${GAS_URL}?action=bookAppointment`, {
         method: "POST",
-        body: JSON.stringify(Object.fromEntries(formData)),
-        headers: { "Content-Type": "application/json" }
+        body: JSON.stringify(jsonData),
+        headers: {
+            "Content-Type": "application/json"
+        }
     })
     .then(response => response.json())
     .then(data => {
@@ -115,3 +132,29 @@ document.getElementById('bookingDetails').addEventListener('submit', function(ev
         showModalAlert("Error: " + error.message);
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
