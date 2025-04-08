@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const baseUrl = 'https://script.google.com/macros/s/AKfycbwFR2ndF3tZx7wmyNmdliGoKC9yhgifdrbf7_gItDvC56RF6dCJxoo3xwwUeSXsr8OT/exec'; // Your Web App URL
+  const baseUrl = 'https://script.google.com/macros/s/AKfycbxqTv9VqYirc5o1AHtRB106blUrdlUWGgYz_R_MGJtCv262u0ZA_tjeBDXyXdT0RePk/exec'; // Your Web App URL
   let fetchUrl = baseUrl;
 
   if (req.method === 'GET') {
