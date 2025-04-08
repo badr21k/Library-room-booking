@@ -1,31 +1,26 @@
-/******************************************************
- * script.js
- * 
- * 1) Include this file in index.html:
- *    <script src="script.js"></script>
- * 2) Ensure your HTML has matching IDs ("days", "timeSlots", "overlay", etc.)
- ******************************************************/
+// script.js
+// Include this in your index.html: <script src="script.js"></script>
+// Make sure your HTML has these IDs: "days", "timeSlots", "overlay", "bookingDetails", "noAvailableSlotsMessage", "alertModal", "alertModalText", "bookAppointmentButton", "hiddenSlotInput"
 
-const GAS_URL = "/api/proxy"; // Points to the Vercel proxy endpoint
+const GAS_URL = "/api/proxy"; // Points to your Vercel proxy endpoint
 
-/** On window load, fetch and display active days. */
+// When the page loads, fetch and show the days
 window.addEventListener("load", fetchAndCreateDayButtons);
 
-/**
- * fetchAndCreateDayButtons:
- *  - Calls ?action=getActiveDays via the proxy
- *  - Creates day buttons in the "days" container
- */
+// Fetches active days from the proxy and creates buttons for them
 function fetchAndCreateDayButtons() {
   fetch(`${GAS_URL}?action=getActiveDays`)
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      return response.json();
+    })
     .then(days => {
       if (days.error) {
-        showModalAlert("Error: " + days.error);
+        showModalAlert("Error fetching days: " + days.error);
         return;
       }
       const daysContainer = document.getElementById("days");
-      daysContainer.innerHTML = "";
+      daysContainer.innerHTML = ""; // Clear existing content
       days.forEach(day => {
         const button = document.createElement("button");
         button.classList.add("day-button");
@@ -35,17 +30,12 @@ function fetchAndCreateDayButtons() {
       });
     })
     .catch(error => {
-      showModalAlert("Failed to load days: " + error);
-      console.error(error);
+      showModalAlert("Failed to load days: " + error.message);
+      console.error("Error in fetchAndCreateDayButtons:", error);
     });
 }
 
-/**
- * selectDay(day):
- *  - Shows overlay
- *  - Fetches ?action=getAvailableSlots&day=... via the proxy
- *  - Displays time slots or "no slots" message
- */
+// Shows overlay and fetches available slots for the selected day
 function selectDay(day) {
   showOverlay();
   const slotsContainer = document.getElementById("timeSlots");
@@ -53,11 +43,14 @@ function selectDay(day) {
   document.getElementById("noAvailableSlotsMessage").style.display = "none";
 
   fetch(`${GAS_URL}?action=getAvailableSlots&day=${encodeURIComponent(day)}`)
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      return response.json();
+    })
     .then(slots => {
       hideOverlay();
       if (slots.error) {
-        showModalAlert("Error: " + slots.error);
+        showModalAlert("Error fetching slots: " + slots.error);
         return;
       }
       if (!slots.length) {
@@ -76,29 +69,20 @@ function selectDay(day) {
     })
     .catch(error => {
       hideOverlay();
-      showModalAlert("Error fetching slots: " + error);
-      console.error(error);
+      showModalAlert("Failed to load slots: " + error.message);
+      console.error("Error in selectDay:", error);
     });
 }
 
-/**
- * formatSlot(slotString):
- *  - Format the ISO date string (yyyy-mm-ddThh:mm:ssZ)
- *  - Return "hh:mm" for UI
- */
+// Formats an ISO date string (e.g., "2025-03-12T14:30:00Z") to "14:30"
 function formatSlot(slotString) {
   const date = new Date(slotString);
-  const hours = date.getHours();
+  const hours = String(date.getHours()).padStart(2, "0");
   const minutes = String(date.getMinutes()).padStart(2, "0");
   return `${hours}:${minutes}`;
 }
 
-/**
- * selectSlot(slot, button):
- *  - Highlights the chosen time slot
- *  - Stores slot in hidden input
- *  - Enables the Book button
- */
+// Highlights the selected slot and enables the Book button
 function selectSlot(slot, button) {
   document.querySelectorAll(".slot-button").forEach(btn => btn.classList.remove("selected"));
   button.classList.add("selected");
@@ -106,12 +90,7 @@ function selectSlot(slot, button) {
   document.getElementById("bookAppointmentButton").disabled = false;
 }
 
-/**
- * Booking form submission:
- *  - Reads form data
- *  - POSTs to the proxy
- *  - Shows success/failure in modal
- */
+// Handles form submission for booking
 document.getElementById("bookingDetails").addEventListener("submit", function(event) {
   event.preventDefault();
   showOverlay();
@@ -124,31 +103,31 @@ document.getElementById("bookingDetails").addEventListener("submit", function(ev
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      return response.json();
+    })
     .then(data => {
       hideOverlay();
       if (data.error) {
-        showModalAlert("Error: " + data.error);
+        showModalAlert("Booking failed: " + data.error);
       } else if (data.message) {
         showModalAlert(data.message);
         this.reset();
-        document.querySelectorAll(".slot-button").forEach(b => b.classList.remove("selected"));
+        document.querySelectorAll(".slot-button").forEach(btn => btn.classList.remove("selected"));
         document.getElementById("bookAppointmentButton").disabled = true;
       } else {
-        showModalAlert("Unknown response");
+        showModalAlert("Booking completed, but no message received.");
       }
     })
     .catch(error => {
       hideOverlay();
-      showModalAlert("Error booking: " + error);
-      console.error(error);
+      showModalAlert("Booking error: " + error.message);
+      console.error("Error in booking:", error);
     });
 });
 
-/******************************************************
- * Modal / Overlay logic
- ******************************************************/
-
+// Overlay and modal functions
 function showOverlay() {
   document.getElementById("overlay").style.display = "flex";
 }
