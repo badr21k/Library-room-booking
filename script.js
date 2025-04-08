@@ -1,4 +1,4 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbxfhGHyBGwdBWl33ZkOmnmHGq8cuNmBw0gQQMErbpCFzIEXswvfccfTktDTw3Nf8hoS/exec"; // Replace with your actual deployed Apps Script URL
+const GAS_URL = "https://script.google.com/macros/s/AKfycby_oOLKE1Rzr7_E96i0eZ87Jd3_rw6pqDPY5DlxYDwVD3lhk1cGWRWIBWAtq135SKAP/exec"; // Replace with your actual deployed Apps Script URL
 
 function getDayIndex(dayName) {
     const dayOfWeekMap = { 'Sunday': 0, 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6 };
