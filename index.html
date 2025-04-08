@@ -3,120 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Library Room Booking | Algoma University</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+  <title>Appointment Booking</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 <body>
-  <div class="page-wrapper">
-    <!-- Header / Title -->
-    <header class="welcome-header">
-      <div class="header-content">
-        <div class="university-logo">
-          <img src="https://via.placeholder.com/150x50?text=AlgomaU" alt="Algoma University Logo" />
-        </div>
-        <h1>Library Study Room Reservations</h1>
-        <h2>Book your private study space in just a few clicks</h2>
-        <div class="header-decoration">
-          <div class="decoration-line"></div>
-          <i class="fas fa-book-open decoration-icon"></i>
-          <div class="decoration-line"></div>
-        </div>
-      </div>
-    </header>
 
-    <!-- Main content container -->
-    <main class="booking-container">
-      <!-- Progress indicator -->
-      <div class="booking-progress">
-        <div class="progress-step active">
-          <span class="step-number">1</span>
-          <span class="step-label">Select Date</span>
-        </div>
-        <div class="progress-step">
-          <span class="step-number">2</span>
-          <span class="step-label">Choose Time</span>
-        </div>
-        <div class="progress-step">
-          <span class="step-number">3</span>
-          <span class="step-label">Your Details</span>
-        </div>
-      </div>
+  <!-- Header / Title -->
+  <div class="welcome-div">
+    <h1>Welcome To The Library Room Booking System</h1>
+    <h2>Secure Your Spot - View Available Days</h2>
+  </div>
 
-      <!-- Container for days, time slots, and booking form -->
-      <div class="booking-content">
-        <!-- Where days will appear -->
-        <section class="booking-section" id="daysSection">
-          <h3><i class="far fa-calendar-alt section-icon"></i> Available Dates</h3>
-          <div id="days" class="time-slots"></div>
-        </section>
+  <!-- Container for days, time slots, and booking form -->
+  <div class="container">
 
-        <!-- Where time slots will appear -->
-        <section class="booking-section" id="timeSlotsSection" style="display: none;">
-          <h3><i class="far fa-clock section-icon"></i> Available Times</h3>
-          <div id="timeSlots" class="time-slots"></div>
-        </section>
+    <!-- Where days will appear -->
+    <div id="days" class="time-slots"></div>
 
-        <!-- Booking form (hidden until we have time slots) -->
-        <section class="booking-section" id="bookingFormSection" style="display: none;">
-          <h3><i class="fas fa-user-edit section-icon"></i> Your Information</h3>
-          <form id="bookingDetails">
-            <input type="hidden" id="hiddenSlotInput" name="slot" value="">
-            
-            <div class="form-group">
-              <label for="fullName">Full Name</label>
-              <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required minlength="3">
-            </div>
-            
-            <div class="form-group">
-              <label for="email">University Email</label>
-              <input type="email" id="email" name="email" placeholder="username@algomau.ca" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="studentId">Student ID</label>
-              <input type="text" id="studentId" name="studentId" placeholder="Enter your student ID" required>
-            </div>
-
-            <div class="form-group consent-group">
-              <div class="consent-container">
-                <input type="checkbox" id="consentCheckbox" name="consent" required>
-                <label for="consentCheckbox">
-                  I agree to the <a href="#" class="policy-link">Library Room Booking Policies</a>
-                  <span class="required-text">(required)</span>
-                </label>
-              </div>
-            </div>
-
-            <div class="form-actions">
-              <button type="button" class="secondary-button" id="backButton">
-                <i class="fas fa-arrow-left"></i> Back
-              </button>
-              <button type="submit" id="bookAppointmentButton" class="primary-button" disabled>
-                Confirm Booking <i class="fas fa-arrow-right"></i>
-              </button>
-            </div>
-          </form>
-        </section>
-
-        <!-- Message if no slots are found for a selected day -->
-        <div id="noAvailableSlotsMessage" class="empty-state">
-          <i class="fas fa-calendar-times empty-icon"></i>
-          <h3>No Available Slots</h3>
-          <p>All appointments are booked for the selected day. Please choose another date or check back later.</p>
-          <button class="secondary-button" id="tryAnotherDayButton">
-            <i class="fas fa-calendar-alt"></i> Try Another Day
-          </button>
-        </div>
-      </div>
-    </main>
+    <!-- Where time slots will appear -->
+    <div id="timeSlots" class="time-slots"></div>
 
     <!-- A loading overlay (hidden by default) -->
     <div id="overlay" class="overlay">
-      <div class="loading-content">
-        <div class="loading-spinner"></div>
-        <p>Loading available times...</p>
+      <div>
+        <img src="loading.gif" alt="Loading..." />
       </div>
     </div>
 
@@ -124,29 +34,42 @@
     <div class="modal" id="alertModal">
       <div class="modal-content">
         <span class="close-button" onclick="closeModal()">&times;</span>
-        <div class="modal-icon">
-          <i class="fas fa-exclamation-circle"></i>
-        </div>
-        <h3 class="modal-title">Notice</h3>
         <p id="alertModalText">Some alert text...</p>
-        <button class="primary-button modal-button" onclick="closeModal()">OK</button>
       </div>
     </div>
-  </div>
 
-  <!-- Footer -->
-  <footer class="page-footer">
-    <div class="footer-content">
-      <p>© 2023 Algoma University Library Services. All rights reserved.</p>
-      <div class="footer-links">
-        <a href="#"><i class="fas fa-question-circle"></i> Help</a>
-        <a href="#"><i class="fas fa-file-alt"></i> Policies</a>
-        <a href="#"><i class="fas fa-phone-alt"></i> Contact</a>
+    <!-- Booking form (hidden until we have time slots) -->
+    <form id="bookingDetails" style="display: none;">
+      <input type="hidden" id="hiddenSlotInput" name="slot" value="">
+      <input type="text" id="fullName" name="fullName" placeholder="Full Name" required minlength="3">
+      <input type="email" id="email" name="email" placeholder="AlgomaU Email" required>
+      <input type="text" id="studentId" name="studentId" placeholder="Student ID" required>
+
+      <div class="consent-container">
+        <input type="checkbox" id="consentCheckbox" name="consent" required>
+        <label for="consentCheckbox">
+          I agree and consent to the 
+          <a href="#" style="color: #727b97; text-decoration: none;">
+            client policies
+          </a>.
+          <span style="font-size: 0.8em; color: gray;">(required)</span>
+        </label>
       </div>
+
+      <button type="submit" id="bookAppointmentButton" disabled>
+        Book Appointment
+      </button>
+    </form>
+
+    <!-- Message if no slots are found for a selected day -->
+    <div id="noAvailableSlotsMessage" style="display: none; text-align: center; margin-top: 20px;">
+      <p>All appointments are booked for that particular day. Please select another day or check back later.</p>
     </div>
-  </footer>
+
+  </div> <!-- End container -->
 
   <!-- Link your main JS logic -->
   <script src="script.js"></script>
+
 </body>
 </html>
