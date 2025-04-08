@@ -167,8 +167,8 @@ button[type="submit"]:disabled {
   border-color: var(--secondary);
 }
 
+
 /* Fixed Overlay and Modal */
-/* Replace the existing overlay styles with this */
 .overlay {
   display: none;
   position: fixed;
@@ -176,7 +176,7 @@ button[type="submit"]:disabled {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(3px);
   z-index: 1000;
   justify-content: center;
