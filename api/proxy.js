@@ -2,7 +2,6 @@ const fetch = require('node-fetch');
 const url = require('url');
 
 module.exports = async (req, res) => {
-  // Handle CORS preflight OPTIONS request
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -11,24 +10,18 @@ module.exports = async (req, res) => {
     return;
   }
 
-  // Use your verified Google Apps Script URL
-  const baseUrl = 'https://script.google.com/macros/s/AKfycbwDWJbj5vV84m5Gc7eswsKa6ovt-Xt_UWZdlcnWQYcUtY8awpEDBt4SqdC2g5yTm6RG/exec';
+  const baseUrl = 'https://script.google.com/macros/s/AKfycbwFR2ndF3tZx7wmyNmdliGoKC9yhgifdrbf7_gItDvC56RF6dCJxoo3xwwUeSXsr8OT/exec'; // Your Web App URL
   let fetchUrl = baseUrl;
 
-  // Append query parameters for GET requests
   if (req.method === 'GET') {
     const queryString = url.parse(req.url).query;
-    if (queryString) {
-      fetchUrl += '?' + queryString;
-    }
+    if (queryString) fetchUrl += '?' + queryString;
   }
 
   try {
     const response = await fetch(fetchUrl, {
       method: req.method,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: req.method === 'POST' ? JSON.stringify(req.body) : undefined,
     });
     const data = await response.json();
