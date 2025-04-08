@@ -82,10 +82,29 @@ function formatSlot(slotString) {
   return `${hours}:${minutes}`;
 }
 
-// Highlights the selected slot and enables the Book button
+// Highlights the selected slot, hides other slots, and displays selected date and time
 function selectSlot(slot, button) {
-  document.querySelectorAll(".slot-button").forEach(btn => btn.classList.remove("selected"));
-  button.classList.add("selected");
+  const slotsContainer = document.getElementById("timeSlots");
+  slotsContainer.innerHTML = ""; // Clear all slots
+
+  const selectedSlotDisplay = document.createElement("div");
+  selectedSlotDisplay.classList.add("selected-slot-display");
+
+  const slotDate = new Date(slot);
+  const formattedDate = slotDate.toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    weekday: 'long'
+  });
+  const formattedTime = slotDate.toLocaleTimeString(undefined, {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  selectedSlotDisplay.textContent = `You selected: ${formattedDate} at ${formattedTime}`;
+  slotsContainer.appendChild(selectedSlotDisplay);
+
   document.getElementById("hiddenSlotInput").value = slot;
   document.getElementById("bookAppointmentButton").disabled = false;
 }
