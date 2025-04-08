@@ -1,4 +1,4 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbzMkIxwKVI0EslUGd1f5MvjRojCMj89QgOm6jrLFqzpeWXFwkliDPTCevhz5zBK5ngx/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwDU2aIAAnXS-AWlZRqqYVVLFKSl_LTcrSEiRTnZcPdGU3YO6rael0RLPpZWcRpA_cX/exec";
 
 window.addEventListener("load", fetchAndCreateDayButtons);
 
