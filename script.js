@@ -1,4 +1,4 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbyh2ShWsxxBRF3hzV7iJX9-DDOjYHjOrPyADaxmyRIXNQqvj1Iu7oldKpyhx8ql3C3b/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzShSu_qnClCjZ51Ks70g7RRASInrKmjzWpS0kDM3r7PIeU-cojud-YYnSbdGUZIL6u/exec";
 
 function getDayIndex(dayName) {
     const map = { Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6 };
