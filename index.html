@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appointment Booking.</title>
-    <link href="style.css" rel="stylesheet">
+    <title>Appointment Booking</title>
+    <link href="style.css" rel="stylesheet" />
 </head>
 <body>
     <div class="welcome-div">
@@ -15,11 +15,11 @@
         <div id="days" class="time-slots"></div>
         <div id="timeSlots" class="time-slots"></div>
         <div id="loadingIndicator" class="loading-indicator">
-            <img src="https://64.media.tumblr.com/3fe3070bb5373448c983a466b61d9724/6b6dd5ab71d91c61-db/s250x400/41509dea4a388e7d438cc7890262be04c1c84cbf.gifv" alt="Loading..." />
+            <img src="loading.gif" alt="Loading..." />
         </div>
         <div id="overlay" class="overlay">
             <div>
-                <img src="https://64.media.tumblr.com/3fe3070bb5373448c983a466b61d9724/6b6dd5ab71d91c61-db/s250x400/41509dea4a388e7d438cc7890262be04c1c84cbf.gifv" alt="Loading..." />
+                <img src="loading.gif" alt="Loading..." />
             </div>
         </div>
         <div class="modal" id="alertModal">
@@ -28,26 +28,22 @@
                 <p id="alertModalText">Some alert text...</p>
             </div>
         </div>
-        <form id="bookingDetails">
+        <form id="bookingDetails" style="display:none;">
             <input type="hidden" id="hiddenSlotInput" name="slot" value="">
-            <input type="text" id="fullName" placeholder="Full Name" required minlength="3">
-            <input type="email" id="email" placeholder="AlgomaU Email" pattern=".+@algomau\.ca$" required>
-            <input type="text" id="studentId" placeholder="Student ID" pattern="\d{9}" required>
-
+            <input type="text" id="fullName" name="fullName" placeholder="Full Name" required>
+            <input type="email" id="email" name="email" placeholder="AlgomaU Email" required>
+            <input type="text" id="studentId" name="studentId" placeholder="Student ID" required>
             <div class="consent-container">
                 <input type="checkbox" id="consentCheckbox" name="consent" required>
                 <label for="consentCheckbox">
                     I agree and consent to the 
-                    <a href="#" style="color: #727b97; text-decoration: none;">
-                        client policies
-                    </a>.
-                    <span style="font-size: 0.8em; color: gray;"> (required)</span>
+                    <a href="#" style="color: #727b97; text-decoration: none;">client policies</a>.
+                    <span style="font-size: 0.8em; color: gray;">(required)</span>
                 </label>
             </div>
-
             <button type="submit" id="bookAppointmentButton" disabled>Book Appointment</button>
         </form>
-        <div id="noAvailableSlotsMessage" style="display: none; text-align: center; color: #000000; margin-top: 20px;">
+        <div id="noAvailableSlotsMessage" style="display:none; text-align: center; margin-top: 20px; color:#333;">
             <p>All appointments are booked for that particular day. Please select another day or check back later.</p>
         </div>
     </div>
