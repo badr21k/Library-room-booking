@@ -8,7 +8,7 @@
  * 3) Ensure your HTML has matching IDs ("days", "timeSlots", "overlay", etc.)
  ******************************************************/
 
-const GAS_URL = "https://script.google.com/macros/s/YOUR_APPS_SCRIPT_WEB_APP_URL/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwY7pCwcJYWHqImdZihyEtvF-KCp0SPa2ywuSe42JG8LnIfvl6-AGDLlTFl_ze1FfSs/exec";
 
 /** On window load, fetch and display active days. */
 window.addEventListener("load", fetchAndCreateDayButtons);
