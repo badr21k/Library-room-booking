@@ -4,42 +4,72 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Appointment Booking</title>
-  <link href="style.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <!-- Header / Title -->
   <div class="welcome-div">
     <h1>Welcome To The Library Room Booking System</h1>
     <h2>Secure Your Spot - View Available Days</h2>
   </div>
+
+  <!-- Container for days, time slots, and booking form -->
   <div class="container">
+
+    <!-- Where days will appear -->
     <div id="days" class="time-slots"></div>
+
+    <!-- Where time slots will appear -->
     <div id="timeSlots" class="time-slots"></div>
+
+    <!-- A loading overlay (hidden by default) -->
     <div id="overlay" class="overlay">
       <div>
-        <img src="loading.gif" alt="Loading..."/>
+        <img src="loading.gif" alt="Loading..." />
       </div>
     </div>
+
+    <!-- Modal for alert messages -->
     <div class="modal" id="alertModal">
       <div class="modal-content">
         <span class="close-button" onclick="closeModal()">&times;</span>
         <p id="alertModalText">Some alert text...</p>
       </div>
     </div>
-    <form id="bookingDetails" style="display:none;">
+
+    <!-- Booking form (hidden until we have time slots) -->
+    <form id="bookingDetails" style="display: none;">
       <input type="hidden" id="hiddenSlotInput" name="slot" value="">
-      <input type="text" id="fullName" name="fullName" placeholder="Full Name" required/>
-      <input type="email" id="email" name="email" placeholder="AlgomaU Email" required/>
-      <input type="text" id="studentId" name="studentId" placeholder="Student ID" required/>
+      <input type="text" id="fullName" name="fullName" placeholder="Full Name" required minlength="3">
+      <input type="email" id="email" name="email" placeholder="AlgomaU Email" required>
+      <input type="text" id="studentId" name="studentId" placeholder="Student ID" required>
+
       <div class="consent-container">
         <input type="checkbox" id="consentCheckbox" name="consent" required>
-        <label for="consentCheckbox">I agree and consent to the <a href="#">client policies</a>.</label>
+        <label for="consentCheckbox">
+          I agree and consent to the 
+          <a href="#" style="color: #727b97; text-decoration: none;">
+            client policies
+          </a>.
+          <span style="font-size: 0.8em; color: gray;">(required)</span>
+        </label>
       </div>
-      <button type="submit" id="bookAppointmentButton" disabled>Book Appointment</button>
+
+      <button type="submit" id="bookAppointmentButton" disabled>
+        Book Appointment
+      </button>
     </form>
-    <div id="noAvailableSlotsMessage" style="display:none; text-align:center;">
+
+    <!-- Message if no slots are found for a selected day -->
+    <div id="noAvailableSlotsMessage" style="display: none; text-align: center; margin-top: 20px;">
       <p>All appointments are booked for that particular day. Please select another day or check back later.</p>
     </div>
-  </div>
+
+  </div> <!-- End container -->
+
+  <!-- Link your main JS logic -->
   <script src="script.js"></script>
+
 </body>
 </html>
