@@ -1,4 +1,4 @@
-/* style.css - Professional Redesign (No Logic Changes) */
+/* style.css - Final Professional Design */
 :root {
   --primary: #E25959;
   --secondary: #4A5568;
@@ -11,6 +11,7 @@
   --radius: 8px;
 }
 
+/* Base Styles */
 body {
   font-family: 'Inter', system-ui, sans-serif;
   background-color: var(--light);
@@ -20,6 +21,7 @@ body {
   padding: 0 0 3rem;
 }
 
+/* Header Section */
 .welcome-div {
   background: linear-gradient(135deg, var(--primary), #D14545);
   color: var(--white);
@@ -43,6 +45,7 @@ body {
   margin: 0;
 }
 
+/* Main Container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -52,6 +55,7 @@ body {
   box-shadow: var(--shadow);
 }
 
+/* Time Slots Container */
 .time-slots {
   display: flex;
   flex-wrap: wrap;
@@ -60,6 +64,7 @@ body {
   margin: 2rem 0;
 }
 
+/* Day and Slot Buttons */
 .day-button, .slot-button {
   padding: 0.75rem 1.25rem;
   background: var(--white);
@@ -83,6 +88,7 @@ body {
   border-color: var(--secondary);
 }
 
+/* Form Styles */
 form {
   max-width: 600px;
   margin: 2rem auto 0;
@@ -106,6 +112,7 @@ input[type="email"]:focus {
   box-shadow: 0 0 0 3px rgba(74, 85, 104, 0.15);
 }
 
+/* Submit Button */
 button[type="submit"] {
   background: var(--primary);
   color: var(--white);
@@ -130,6 +137,7 @@ button[type="submit"]:disabled {
   cursor: not-allowed;
 }
 
+/* Consent Checkbox */
 .consent-container {
   margin: 1.5rem 0;
   display: flex;
@@ -141,6 +149,7 @@ button[type="submit"]:disabled {
   padding-left: 2rem;
   font-size: 0.95rem;
   color: var(--dark);
+  line-height: 1.5;
 }
 
 .consent-container label a {
@@ -158,16 +167,53 @@ button[type="submit"]:disabled {
   border-color: var(--secondary);
 }
 
+/* Overlay and Modal */
+#overlay.overlay {
+  display: none !important;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(5px);
+}
+
+#alertModal.modal {
+  display: none !important;
+}
+
+.overlay img {
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .modal-content {
   background: var(--white);
   padding: 2rem;
   border-radius: var(--radius);
   max-width: 450px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+  text-align: center;
+}
+
+.modal-content p {
+  font-size: 1.1rem;
+  color: var(--dark);
+  margin: 1rem 0;
 }
 
 .close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
   color: var(--gray);
+  background: none;
+  border: none;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 
@@ -175,6 +221,18 @@ button[type="submit"]:disabled {
   color: var(--dark);
 }
 
+/* No Slots Message */
+#noAvailableSlotsMessage {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: var(--light);
+  border-radius: var(--radius);
+  margin: 2rem 0;
+  color: var(--dark);
+  font-weight: 500;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
   .welcome-div {
     padding: 2.5rem 1rem;
@@ -191,5 +249,17 @@ button[type="submit"]:disabled {
   .slot-button {
     padding: 0.5rem;
     font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-div h1 {
+    font-size: 1.75rem;
+  }
+  
+  .container {
+    padding: 1.25rem;
+    margin: 1rem;
+    width: calc(100% - 2rem);
   }
 }
