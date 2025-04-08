@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
   }
 
   // Replace this with your actual Google Apps Script Web App URL
-  const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwv9Tw7fUiaImMW8VLwEXFpP8UzwZSPG3T92GwvwzqifMvhmRTezNdfEYVhGx7DKWKP/exec";
+  const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzW2mL1VHCB9K44JTJxGnOpfrWX81y4VWTgU3ynZDlfHtVTBsCiFBRpNdG39tbNoUqv/exec";
   const fetchUrl = GAS_WEB_APP_URL + (req.query ? "?" + new URLSearchParams(req.query).toString() : "");
 
   try {
