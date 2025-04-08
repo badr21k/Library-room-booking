@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 const url = require('url');
 
 module.exports = async (req, res) => {
+  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -10,9 +11,11 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const baseUrl = 'https://script.google.com/macros/s/AKfycbxqTv9VqYirc5o1AHtRB106blUrdlUWGgYz_R_MGJtCv262u0ZA_tjeBDXyXdT0RePk/exec'; // Your Web App URL
+  // Your Google Apps Script Web App URL
+  const baseUrl = 'https://script.google.com/macros/s/AKfycbxqTv9VqYirc5o1AHtRB106blUrdlUWGgYz_R_MGJtCv262u0ZA_tjeBDXyXdT0RePk/exec';
   let fetchUrl = baseUrl;
 
+  // Append query string for GET requests
   if (req.method === 'GET') {
     const queryString = url.parse(req.url).query;
     if (queryString) fetchUrl += '?' + queryString;
