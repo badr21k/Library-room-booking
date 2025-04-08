@@ -1,13 +1,12 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbwxohC7MzpldPMgFItqLjKea2G36cNQnvCPUt7X3D1oooNUSw7MkZOYsA6LUpM6NBrY/exec"; // Replace with your Apps Script URL
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwWRfL6RbH9WkmVvkGLimKCTh4LI_459jkLk7oSZW5nSxAsvvxYzZj0r0kcnUHHKVJx/exec"; // Replace with your actual URL
+
+window.addEventListener("load", fetchAndCreateDayButtons);
 
 function getDayIndex(dayName) {
-    const dayOfWeekMap = { 'Sunday': 0, 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6 };
-    const currentDayIndex = new Date().getDay();
-    let dayIndex = dayOfWeekMap[dayName];
-    if (dayIndex < currentDayIndex) {
-        dayIndex += 7;
-    }
-    return dayIndex;
+    const map = { Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6 };
+    const current = new Date().getDay();
+    let index = map[dayName];
+    return index < current ? index + 7 : index;
 }
 
 function sortDays(days) {
@@ -15,103 +14,107 @@ function sortDays(days) {
 }
 
 function fetchAndCreateDayButtons() {
-    fetch(${GAS_URL}?action=getActiveDays)
-        .then(response => response.json())
-        .then(createDayButtons)
-        .catch(error => console.error("Error fetching days:", error));
-}
-
-function createDayButtons(days) {
-    const daysContainer = document.getElementById('days');
-    daysContainer.innerHTML = '';
-    sortDays(days);
-    days.forEach(day => {
-        const button = document.createElement('button');
-        button.classList.add('day-button');
-        button.textContent = day;
-        button.onclick = function() { selectDay(day); };
-        daysContainer.appendChild(button);
-    });
-}
-
-window.addEventListener('load', fetchAndCreateDayButtons);
-
-function showOverlay() {
-    document.getElementById('overlay').style.display = 'flex';
-}
-
-function hideOverlay() {
-    document.getElementById('overlay').style.display = 'none';
-}
-
-function showModalAlert(message) {
-    document.getElementById('alertModalText').textContent = message;
-    document.getElementById('alertModal').style.display = "flex";
-}
-
-function closeModal() {
-    document.getElementById('alertModal').style.display = "none";
+    fetch(`${GAS_URL}?action=getActiveDays`)
+        .then(res => res.json())
+        .then(days => {
+            const container = document.getElementById("days");
+            container.innerHTML = "";
+            sortDays(days);
+            days.forEach(day => {
+                const btn = document.createElement("button");
+                btn.classList.add("day-button");
+                btn.textContent = day;
+                btn.onclick = () => selectDay(day);
+                container.appendChild(btn);
+            });
+        })
+        .catch(err => {
+            console.error("Error fetching days:", err);
+            showModalAlert("Could not load available days.");
+        });
 }
 
 function selectDay(day) {
     showOverlay();
-    fetch(${GAS_URL}?action=getAvailableSlots&day=${encodeURIComponent(day)})
-        .then(response => response.json())
+    const timeSlotsDiv = document.getElementById("timeSlots");
+    timeSlotsDiv.innerHTML = "";
+    document.getElementById("noAvailableSlotsMessage").style.display = "none";
+
+    fetch(`${GAS_URL}?action=getAvailableSlots&day=${encodeURIComponent(day)}`)
+        .then(res => res.json())
         .then(slots => {
             hideOverlay();
-            const slotsContainer = document.getElementById('timeSlots');
-            slotsContainer.innerHTML = '';
-            if (slots.length === 0) {
-                document.getElementById('bookingDetails').style.display = 'none';
-                document.getElementById('noAvailableSlotsMessage').style.display = 'block';
+            if (!slots.length) {
+                document.getElementById("bookingDetails").style.display = "none";
+                document.getElementById("noAvailableSlotsMessage").style.display = "block";
             } else {
+                timeSlotsDiv.innerHTML = "";
                 slots.forEach(slot => {
-                    const slotButton = document.createElement('button');
-                    slotButton.classList.add('slot-button');
-                    slotButton.textContent = formatSlot(slot);
-                    slotButton.onclick = function() { selectSlot(slot, day); };
-                    slotsContainer.appendChild(slotButton);
+                    const btn = document.createElement("button");
+                    btn.classList.add("slot-button");
+                    btn.textContent = formatSlot(slot);
+                    btn.onclick = () => selectSlot(slot);
+                    timeSlotsDiv.appendChild(btn);
                 });
-                document.getElementById('bookingDetails').style.display = 'block';
+                document.getElementById("bookingDetails").style.display = "block";
             }
         })
-        .catch(error => {
+        .catch(err => {
             hideOverlay();
-            console.error('Error fetching slots:', error);
+            showModalAlert("Error fetching time slots.");
         });
 }
 
 function formatSlot(slotString) {
-    var date = new Date(slotString);
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    return hours + ':' + minutes;
+    const d = new Date(slotString);
+    let h = d.getHours();
+    let m = d.getMinutes();
+    return `${h}:${m < 10 ? "0" + m : m}`;
 }
 
 function selectSlot(slot) {
-    document.getElementById('hiddenSlotInput').value = slot;
-    document.getElementById('bookAppointmentButton').disabled = false;
+    const input = document.getElementById("hiddenSlotInput");
+    input.value = slot;
+    document.getElementById("bookAppointmentButton").disabled = false;
+    document.querySelectorAll(".slot-button").forEach(btn => btn.classList.remove("selected"));
+    event.target.classList.add("selected");
 }
 
-document.getElementById('bookingDetails').addEventListener('submit', function(event) {
-    event.preventDefault();
+document.getElementById("bookingDetails").addEventListener("submit", function (e) {
+    e.preventDefault();
     showOverlay();
-    const formData = new FormData(this);
+    const data = new FormData(this);
+    const json = Object.fromEntries(data.entries());
 
-    fetch(${GAS_URL}?action=bookAppointment, {
+    fetch(GAS_URL, {
         method: "POST",
-        body: JSON.stringify(Object.fromEntries(formData)),
-        headers: { "Content-Type": "application/json" }
+        body: JSON.stringify(json),
+        headers: {
+            "Content-Type": "application/json",
+        }
     })
-    .then(response => response.json())
-    .then(data => {
-        hideOverlay();
-        showModalAlert(data.message);
-        document.getElementById('bookingDetails').reset();
-    })
-    .catch(error => {
-        hideOverlay();
-        showModalAlert("Error: " + error.message);
-    });
+        .then(res => res.json())
+        .then(res => {
+            hideOverlay();
+            showModalAlert(res.message);
+            this.reset();
+        })
+        .catch(err => {
+            hideOverlay();
+            showModalAlert("Error submitting form.");
+        });
 });
+
+function showOverlay() {
+    document.getElementById("overlay").style.display = "flex";
+}
+function hideOverlay() {
+    document.getElementById("overlay").style.display = "none";
+}
+function showModalAlert(msg) {
+    document.getElementById("alertModalText").textContent = msg;
+    document.getElementById("alertModal").style.display = "flex";
+}
+function closeModal() {
+    document.getElementById("alertModal").style.display = "none";
+}
