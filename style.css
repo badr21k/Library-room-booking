@@ -1,425 +1,613 @@
-.selected-slot-display {
-  font-size: 18px;
-  padding: 15px;
-  margin-top: 20px;
-  background-color: #727b97;
-  color: white;
-  border-radius: 8px;
+:root {
+  --primary-color: #E25959;
+  --primary-dark: #c04a4a;
+  --secondary-color: #727b97;
+  --secondary-dark: #5a627b;
+  --light-gray: #f8f9fa;
+  --medium-gray: #e9ecef;
+  --dark-gray: #495057;
+  --text-color: #2A2630;
+  --white: #ffffff;
+  --success-color: #28a745;
+  --error-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--light-gray);
+  color: var(--text-color);
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Styles */
+.welcome-header {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: var(--white);
+  padding: 2rem 1rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.university-logo {
+  margin-bottom: 1.5rem;
+}
+
+.university-logo img {
+  height: 50px;
+}
+
+.welcome-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-header h2 {
+  font-size: 1.3rem;
+  font-weight: 400;
+  opacity: 0.9;
+  margin-bottom: 1.5rem;
+}
+
+.header-decoration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.decoration-line {
+  width: 50px;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.5);
+  margin: 0 15px;
+}
+
+.decoration-icon {
+  font-size: 1.5rem;
+  color: var(--white);
+}
+
+/* Main Content Styles */
+.booking-container {
+  max-width: 1000px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  flex: 1;
+}
+
+.booking-progress {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.booking-progress::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--medium-gray);
+  z-index: 1;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.step-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--medium-gray);
+  color: var(--dark-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.step-label {
+  font-size: 0.85rem;
+  color: var(--dark-gray);
+  font-weight: 500;
+}
+
+.progress-step.active .step-number {
+  background-color: var(--primary-color);
+  color: var(--white);
+}
+
+.progress-step.active .step-label {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.booking-content {
+  background-color: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+}
+
+.booking-section {
+  margin-bottom: 2rem;
+}
+
+.booking-section h3 {
+  font-size: 1.3rem;
+  color: var(--secondary-color);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.section-icon {
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--dark-gray);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 1px solid var(--medium-gray);
+  border-radius: 6px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus,
+select:focus {
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(114, 123, 151, 0.2);
+}
+
+/* Button Styles */
+.primary-button {
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.primary-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.primary-button:active {
+  transform: translateY(0);
+}
+
+.primary-button:disabled {
+  background-color: var(--medium-gray);
+  color: var(--dark-gray);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.primary-button i {
+  margin-left: 8px;
+}
+
+.secondary-button {
+  background-color: var(--white);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.secondary-button:hover {
+  background-color: rgba(226, 89, 89, 0.1);
+  transform: translateY(-1px);
+}
+
+.secondary-button:active {
+  transform: translateY(0);
+}
+
+.secondary-button i {
+  margin-right: 8px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+/* Time Slots and Day Buttons */
+.time-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.slot-button {
+  min-width: 80px;
+  padding: 10px 15px;
+  font-size: 0.9rem;
+  background-color: var(--white);
+  border: 1px solid var(--medium-gray);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
   text-align: center;
 }
 
+.slot-button:hover {
+  background-color: var(--medium-gray);
+  transform: translateY(-2px);
+}
 
+.slot-button.selected {
+  background-color: var(--secondary-color);
+  color: var(--white);
+  border-color: var(--secondary-color);
+}
 
-body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            padding-bottom: 48px;
-        }
+.day-button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  background-color: var(--white);
+  border: 1px solid var(--medium-gray);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 
-        .welcome-div{
-            background-color: #E25959; 
-            margin: auto;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-        }
+.day-button:hover {
+  background-color: var(--medium-gray);
+  transform: translateY(-2px);
+}
 
-        .welcome-div h1{
-            font-size: 52px;
-            /* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
-            color: white;
-            margin: 0%;
-            padding: 20px;
-        }
+.day-button.selected {
+  background-color: var(--secondary-color);
+  color: var(--white);
+  border-color: var(--secondary-color);
+}
 
-        .welcome-div h2{
-            font-size: 34px;
-            /* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
-            color: white;
-            padding: 0 20px 0 20px;
-        }
+/* Consent Checkbox */
+.consent-group {
+  margin: 2rem 0;
+}
 
-        .container {
-            max-width: 1000px;
-            width: 100%;
-            padding: 40px;
-            border-radius: 5px;
-        }
+.consent-container {
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  user-select: none;
+}
 
-        form {
-            /* max-width: 600px; */
-            margin: 0;
-            /* padding: 0 25% 0 0; */
-        }
+.consent-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
 
-        label, input, textarea, select, div, form-label {
-            margin-bottom: 25px;
-        }
+.consent-container .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: var(--white);
+  border: 1px solid var(--medium-gray);
+  border-radius: 4px;
+}
 
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="date"],
-        select {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
+.consent-container:hover input ~ .checkmark {
+  border-color: var(--secondary-color);
+}
 
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="tel"]:focus,
-        input[type="date"]:focus,
-        select:focus {
-            border-color: #727b97;
-            box-shadow: 0 0 3px #727b97;
-        }
+.consent-container input:checked ~ .checkmark {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
 
-        button[type="submit"] {
-            background-color: #E25959;
-            border: none;
-            color: white;
-            font-family: 'Lato', sans-serif;
-            font-size: 11pt;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: background-color 0.3s ease-in-out;
-        }
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
 
-        button[type="submit"]:hover {
-            background-color: #E25959;
-        }
+.consent-container input:checked ~ .checkmark:after {
+  display: block;
+}
 
-        button[type="submit"]:focus {
-            outline: none;
-        }
+.consent-container .checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
 
-        .radio-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            align-items: left;
-            justify-content: left;
-        }
+.policy-link {
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-weight: 500;
+}
 
-        .radio-input {
-            display: none;
-        }
+.policy-link:hover {
+  text-decoration: underline;
+}
 
-        .radio-container label {
-            display: inline-block;
-            background-color: #fff;
-            border: 2px solid transparent;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 14px;
-            color: #E25959;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
-            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-        }
+.required-text {
+  font-size: 0.8rem;
+  color: var(--dark-gray);
+  font-weight: normal;
+}
 
-        .radio-input:checked + label {
-            background-color: #E25959;
-            color: #fff;
-            transform: scale(1.05);
-        }
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  display: none;
+}
 
-        .radio-container label:hover {
-            border-color: #6574cd;
-            box-shadow: 0 0 3px #6574cd;
-        }
+.empty-icon {
+  font-size: 3rem;
+  color: var(--medium-gray);
+  margin-bottom: 1rem;
+}
 
-        @media screen and (max-width: 768px) {
-            .container {
-                width: 90%;
-                padding: 20px;
-            }
+.empty-state h3 {
+  color: var(--dark-gray);
+  margin-bottom: 0.5rem;
+}
 
-            form {
-                width: 100%;
-            }
+.empty-state p {
+  color: var(--dark-gray);
+  margin-bottom: 1.5rem;
+}
 
-            label, input, textarea, select, div, form-label {
-                margin-bottom: 15px;
-            }
+/* Overlay and Loading */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
 
-            button[type="submit"] {
-                width: 100%;
-            }
+.loading-content {
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
 
-            .radio-container label {
-                padding: 10px;
-                font-size: 12px;
-            }
-        }
+.loading-spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid var(--primary-color);
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
 
-        .calendar {
-            width: 96%;
-            margin: 0 auto;
-            background-color: #fff;
-            border-radius: 4px;
-            padding: 10px;
-            border: 1px solid #ccc;
-        }
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
-        .calendar .calendar-inner {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
 
-        .calendar .calendar-inner .calendar-body div {
-            padding: 10px;
-            margin: 10px;
-            font-size: 16px;
-            color: var(--calendar-font-color);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
-            transition: border-color 0.3s ease-in-out;
-        }
+.modal-content {
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+}
 
-        .calendar .calendar-inner .calendar-body div:hover {
-            border: 1px solid var(--calendar-date-hover-color);
-        }
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1.5rem;
+  color: var(--dark-gray);
+  cursor: pointer;
+  background: none;
+  border: none;
+}
 
-        #verifySection, #codeSection {
-            max-width: 600px;
-            margin: 30px auto;
-            padding: 20px;
-            text-align: center;
-        }
+.close-button:hover {
+  color: var(--text-color);
+}
 
-        #verifySection input, #codeSection input,
-        #verifySection button, #codeSection button {
-            width: 90%;
-            padding: 12px;
-            margin-top: 10px;
-            border: 2px solid #727b97;
-            border-radius: 5px;
-        }
+.modal-icon {
+  font-size: 3rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
 
-        #verifySection button, #codeSection button {
-            background-color: #727b97;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease-in-out;
-        }
+.modal-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
 
-        #verifySection button:hover, #codeSection button:hover {
-            background-color: #2A2630;
-        }
+.modal-button {
+  margin-top: 1.5rem;
+}
 
-        #verifySection input:focus, #codeSection input:focus,
-        #verifySection button:focus, #codeSection button:focus {
-            border-color: #2A2630;
-        }
+/* Footer Styles */
+.page-footer {
+  background-color: var(--secondary-color);
+  color: var(--white);
+  padding: 1.5rem;
+  text-align: center;
+}
 
-        #verifySection label, #codeSection label {
-            display: block;
-            margin-top: 20px;
-            color: #2A2630;
-        }
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-        /* h1 {
-            color: #000000;
-            font-size: 2em;
-            font-weight: bold;
-            margin-bottom: 0.5em;
-        } */
+.footer-links {
+  margin-top: 1rem;
+}
 
-        /* h2 {
-            color: #2A2630;
-            font-size: 1.7em;
-            font-weight: bold;
-            margin-top: 0;
-            opacity: 0.8;
-        } */
+.footer-links a {
+  color: var(--white);
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 0.9rem;
+}
 
-        textarea {
-            height: 100px;
-            resize: vertical;
-        }
+.footer-links a:hover {
+  text-decoration: underline;
+}
 
-        select {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-color: white;
-            background-position: calc(100% - 10px) center;
-            background-repeat: no-repeat;
-            background-size: 20px;
-        }
+.footer-links i {
+  margin-right: 5px;
+}
 
-        .time-slots {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 10px;
-            gap: 10px;  /* Space between slots */
-        }
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .welcome-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .welcome-header h2 {
+    font-size: 1.1rem;
+  }
+  
+  .booking-progress {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .progress-step {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .step-number {
+    margin-bottom: 0;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .primary-button, .secondary-button {
+    width: 100%;
+  }
+}
 
-        .slot-button {
-            width: 70px;  /* Set a fixed width */
-            height: 40px;  /* Set a fixed height */
-            font-size: 14px;  /* Adjust font size as needed */
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
-            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-            margin: 5px;  /* Space between buttons */
-        }
-
-        .slot-button:hover {
-            background-color: #ddd;
-            transform: scale(1.05);
-        }
-
-        .slot-button.selected {
-            background-color: #727b97;
-            color: white;
-        }
-
-        .day-button {
-            padding: 10px 15px;
-            font-size: 16px;
-            background-color: #f4f4f4;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-
-        .day-button:hover {
-            background-color: #ddd;
-            transform: scale(1.05);
-        }
-
-        .day-button.selected {
-            background-color: #727b97;
-            color: white;
-        }
-
-        .loading-indicator {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
-        }
-
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .modal-content p {
-            margin: 0;
-            padding: 0;
-        }
-
-        .modal-content .close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: transparent;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-
-
-        .consent-container {
-            margin: 10px 0;
-            display: flex;
-            align-items: left;
-        }
-        .consent-container input[type="checkbox"] {
-            opacity: 0;
-            position: absolute;
-        }
-        .consent-container label {
-            position: relative;
-            padding-left: 30px;
-            cursor: pointer;
-            color: #333;
-            font-size: 16px;
-        }
-        .consent-container label:before, .consent-container label:after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            border: 2px solid #9e9e9e;
-            width: 20px;
-            height: 20px;
-            background: #fff;
-            border-radius: 4px;
-            transform: translateY(-50%);
-            transition: all 0.3s ease;
-        }
-        .consent-container label:after {
-            content: '✓';
-            left: 5px;
-            color: #fff;
-            width: 16px;
-            height: 16px;
-            text-align: center;
-            line-height: 16px;
-            font-size: 14px;
-            visibility: hidden;
-            background-color: #727b97;
-            border: none;
-        }
-        .consent-container input[type="checkbox"]:checked + label:after { visibility: visible; }
-        .consent-container label:hover:before { border-color: #6574cd; }
-        .consent-container input[type="checkbox"]:focus + label:before { box-shadow: 0 0 3px #6574cd; }
-        .form-label, span { font-size: 16px; }
-        .form-label {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 18px;
-            color: #333;
-        }
+@media (max-width: 480px) {
+  .booking-content {
+    padding: 1.5rem;
+  }
+  
+  .time-slots {
+    justify-content: center;
+  }
+  
+  .slot-button, .day-button {
+    flex: 1 0 calc(50% - 10px);
+    max-width: calc(50% - 10px);
+  }
+}
