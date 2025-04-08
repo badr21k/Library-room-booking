@@ -1,108 +1,35 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycby_oOLKE1Rzr7_E96i0eZ87Jd3_rw6pqDPY5DlxYDwVD3lhk1cGWRWIBWAtq135SKAP/exec"; // Keep this
+const GAS_URL = "https://script.google.com/macros/s/AKfycbytc5Eg8ViKEmehR3CofU7cM-63me2bbbnRcOfccBHRUAtJLdvWREdEzeYUav6jowvM/exec"; // Replace this with your live Web App URL
+
+function getDayIndex(dayName) {
+    const map = { 'Sunday': 0, 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6 };
+    const currentDay = new Date().getDay();
+    let index = map[dayName];
+    return index < currentDay ? index + 7 : index;
+}
+
+function sortDays(days) {
+    days.sort((a, b) => getDayIndex(a) - getDayIndex(b));
+}
 
 function fetchAndCreateDayButtons() {
-    fetch(`${GAS_URL}?action=getActiveDays`, {
-        method: "GET",
-        mode: "no-cors"  // Google Apps Script doesn't support preflight
-    })
-    .then(response => response.text())
-    .then(text => {
-        try {
-            const days = JSON.parse(text);
-            createDayButtons(days);
-        } catch (e) {
-            console.error("Error parsing days:", e, text);
-        }
-    })
-    .catch(error => console.error("Error fetching days:", error));
+    fetch(`${GAS_URL}?action=getActiveDays`)
+        .then(res => res.json())
+        .then(data => {
+            sortDays(data);
+            const daysContainer = document.getElementById('days');
+            daysContainer.innerHTML = '';
+            data.forEach(day => {
+                const button = document.createElement('button');
+                button.classList.add('day-button');
+                button.textContent = day;
+                button.onclick = () => selectDay(day);
+                daysContainer.appendChild(button);
+            });
+        })
+        .catch(err => console.error("Error fetching days:", err));
 }
 
-function createDayButtons(days) {
-    const daysContainer = document.getElementById('days');
-    daysContainer.innerHTML = '';
-    days.forEach(day => {
-        const button = document.createElement('button');
-        button.classList.add('day-button');
-        button.textContent = day;
-        button.onclick = () => selectDay(day);
-        daysContainer.appendChild(button);
-    });
-}
-
-function selectDay(day) {
-    showOverlay();
-    fetch(`${GAS_URL}?action=getAvailableSlots&day=${encodeURIComponent(day)}`, {
-        method: "GET",
-        mode: "no-cors"
-    })
-    .then(response => response.text())
-    .then(text => {
-        hideOverlay();
-        try {
-            const slots = JSON.parse(text);
-            const slotsContainer = document.getElementById('timeSlots');
-            slotsContainer.innerHTML = '';
-            if (slots.length === 0) {
-                document.getElementById('noAvailableSlotsMessage').style.display = 'block';
-            } else {
-                document.getElementById('noAvailableSlotsMessage').style.display = 'none';
-                slots.forEach(slot => {
-                    const slotButton = document.createElement('button');
-                    slotButton.classList.add('slot-button');
-                    slotButton.textContent = formatSlot(slot);
-                    slotButton.onclick = () => selectSlot(slot, slotButton);
-                    slotsContainer.appendChild(slotButton);
-                });
-            }
-        } catch (e) {
-            console.error("Error parsing slots:", e, text);
-        }
-    })
-    .catch(error => {
-        hideOverlay();
-        console.error('Error fetching slots:', error);
-    });
-}
-
-function formatSlot(slotString) {
-    const date = new Date(slotString);
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    if (minutes < 10) minutes = '0' + minutes;
-    return `${hours}:${minutes}`;
-}
-
-function selectSlot(slot, button) {
-    document.querySelectorAll('.slot-button').forEach(btn => btn.classList.remove('selected'));
-    button.classList.add('selected');
-    document.getElementById('hiddenSlotInput').value = slot;
-    document.getElementById('bookAppointmentButton').disabled = false;
-}
-
-document.getElementById('bookingDetails').addEventListener('submit', function(event) {
-    event.preventDefault();
-    showOverlay();
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData.entries());
-
-    fetch(GAS_URL, {
-        method: "POST",
-        mode: "no-cors", // Again: prevent CORS preflight issues
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    })
-    .then(() => {
-        hideOverlay();
-        showModalAlert("Appointment booked successfully. Please check your email for confirmation.");
-        document.getElementById('bookingDetails').reset();
-    })
-    .catch(error => {
-        hideOverlay();
-        showModalAlert("Error: " + error.message);
-    });
-});
+window.addEventListener('load', fetchAndCreateDayButtons);
 
 function showOverlay() {
     document.getElementById('overlay').style.display = 'flex';
@@ -112,14 +39,88 @@ function hideOverlay() {
     document.getElementById('overlay').style.display = 'none';
 }
 
-function showModalAlert(message) {
-    document.getElementById('alertModalText').textContent = message;
-    document.getElementById('alertModal').style.display = "flex";
+function showModalAlert(msg) {
+    document.getElementById('alertModalText').textContent = msg;
+    document.getElementById('alertModal').style.display = 'flex';
 }
 
 function closeModal() {
-    document.getElementById('alertModal').style.display = "none";
+    document.getElementById('alertModal').style.display = 'none';
 }
 
-// Load on page ready
-window.addEventListener('load', fetchAndCreateDayButtons);
+function selectDay(day) {
+    showOverlay();
+    document.getElementById('noAvailableSlotsMessage').style.display = 'none';
+    fetch(`${GAS_URL}?action=getAvailableSlots&day=${encodeURIComponent(day)}`)
+        .then(res => res.json())
+        .then(slots => {
+            hideOverlay();
+            const container = document.getElementById('timeSlots');
+            container.innerHTML = '';
+
+            if (slots.length === 0) {
+                document.getElementById('bookingDetails').style.display = 'none';
+                document.getElementById('noAvailableSlotsMessage').style.display = 'block';
+                return;
+            }
+
+            slots.forEach(slot => {
+                const btn = document.createElement('button');
+                btn.classList.add('slot-button');
+                btn.textContent = formatSlot(slot);
+                btn.onclick = () => selectSlot(slot, btn);
+                container.appendChild(btn);
+            });
+
+            document.getElementById('bookingDetails').style.display = 'block';
+        })
+        .catch(err => {
+            hideOverlay();
+            showModalAlert("Error fetching slots: " + err.message);
+        });
+}
+
+function formatSlot(slotString) {
+    const date = new Date(slotString);
+    const hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+}
+
+function selectSlot(slot, btn) {
+    document.querySelectorAll('.slot-button').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('hiddenSlotInput').value = slot;
+    document.getElementById('bookAppointmentButton').disabled = false;
+}
+
+document.getElementById('bookingDetails').addEventListener('submit', function(e) {
+    e.preventDefault();
+    showOverlay();
+
+    const formData = new FormData(this);
+    const data = {
+        slot: formData.get("slot"),
+        fullName: formData.get("fullName"),
+        email: formData.get("email"),
+        studentId: formData.get("studentId"),
+        accessibility: formData.get("consent") ? "Yes" : "No"
+    };
+
+    fetch(GAS_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(response => {
+        hideOverlay();
+        showModalAlert(response.message);
+        document.getElementById('bookingDetails').reset();
+        document.getElementById('bookAppointmentButton').disabled = true;
+    })
+    .catch(err => {
+        hideOverlay();
+        showModalAlert("Error: " + err.message);
+    });
+});
