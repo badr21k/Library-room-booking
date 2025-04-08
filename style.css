@@ -1,4 +1,4 @@
-/* style.css - Final Professional Design */
+/* style.css - Fixed Version */
 :root {
   --primary: #E25959;
   --secondary: #4A5568;
@@ -167,15 +167,23 @@ button[type="submit"]:disabled {
   border-color: var(--secondary);
 }
 
-/* Overlay and Modal */
-#overlay.overlay {
-  display: none !important;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(5px);
+/* Fixed Overlay and Modal */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
 }
 
-#alertModal.modal {
-  display: none !important;
+.overlay div {
+  text-align: center;
 }
 
 .overlay img {
@@ -184,9 +192,17 @@ button[type="submit"]:disabled {
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
@@ -194,9 +210,9 @@ button[type="submit"]:disabled {
   padding: 2rem;
   border-radius: var(--radius);
   max-width: 450px;
+  width: 90%;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   position: relative;
-  text-align: center;
 }
 
 .modal-content p {
@@ -219,6 +235,11 @@ button[type="submit"]:disabled {
 
 .close-button:hover {
   color: var(--dark);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* No Slots Message */
