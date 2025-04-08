@@ -22,29 +22,101 @@ body {
 }
 
 /* Header Section */
+/* Update the header section in your CSS */
 .welcome-div {
-  background: linear-gradient(135deg, var(--primary), #D14545);
+  background: linear-gradient(135deg, #E25959 0%, #C44545 100%);
   color: var(--white);
-  padding: 4rem 1rem;
+  padding: 5rem 1rem 4rem;
   text-align: center;
   margin-bottom: 2rem;
-  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-div::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/svg+xml,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path fill="%23ffffff10" d="M44.6,-58.1C56.7,-50.2,64.5,-34.2,68.5,-17.2C72.6,-0.2,72.9,17.8,66.6,32.7C60.3,47.6,47.4,59.4,32.6,67.7C17.8,76,1.1,80.8,-16.2,78.6C-33.5,76.5,-51.5,67.5,-62.7,53.3C-73.9,39.1,-78.4,19.5,-76.5,1.4C-74.6,-16.7,-66.4,-33.4,-55.8,-41.9C-45.2,-50.4,-32.3,-50.8,-18.8,-57.5C-5.3,-64.2,8.9,-77.3,24.1,-76.5C39.3,-75.7,55.4,-61,62.9,-43.3C70.4,-25.6,69.3,-5,67.6,15.2C65.9,35.4,63.6,55.2,53.5,62.9C43.4,70.6,25.7,66.2,6.1,57.8C-13.5,49.4,-34.1,37,-44.5,24.5C-55,12,-55.3,-0.6,-51.5,-11.2C-47.7,-21.8,-39.8,-30.4,-30.7,-39.6C-21.6,-48.8,-11.3,-58.6,2.5,-62.5C16.3,-66.4,32.6,-64.4,44.6,-58.1Z"/></svg>');
+  background-size: cover;
+  opacity: 0.1;
 }
 
 .welcome-div h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: 2.8rem;
+  font-weight: 800;
   margin: 0 0 1rem 0;
-  line-height: 1.2;
+  line-height: 1.1;
+  letter-spacing: -0.05em;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+  transform: translateY(20px);
+  animation: floatTitle 1s ease-out forwards;
 }
 
 .welcome-div h2 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 400;
-  opacity: 0.9;
-  margin: 0;
+  opacity: 0.95;
+  margin: 0 auto;
+  max-width: 600px;
+  line-height: 1.4;
+  position: relative;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: fadeInUp 0.8s 0.3s ease-out forwards;
 }
 
+@keyframes floatTitle {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 0.95;
+  }
+}
+
+@media (max-width: 768px) {
+  .welcome-div {
+    padding: 4rem 1rem 3rem;
+  }
+  
+  .welcome-div h1 {
+    font-size: 2.2rem;
+    letter-spacing: -0.03em;
+  }
+  
+  .welcome-div h2 {
+    font-size: 1.2rem;
+    max-width: 80%;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-div h1 {
+    font-size: 1.8rem;
+  }
+  
+  .welcome-div h2 {
+    font-size: 1.1rem;
+  }
+}
 /* Main Container */
 .container {
   max-width: 1200px;
