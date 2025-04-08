@@ -1,4 +1,16 @@
- body {
+.selected-slot-display {
+  font-size: 18px;
+  padding: 15px;
+  margin-top: 20px;
+  background-color: #727b97;
+  color: white;
+  border-radius: 8px;
+  text-align: center;
+}
+
+
+
+body {
             font-family: 'Inter', sans-serif;
             background-color: #f4f4f4;
             margin: 0;
